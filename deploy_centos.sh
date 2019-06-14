@@ -6,6 +6,7 @@ conf_supervisor=$dir_parent/devpi.ini
 server=/bin/devpi-server
 dir_devpi=/data/devpi
 dir_supervisor_config=/etc/supervisor/config.d
+target_conf=$dir_supervisor_config/devpi.ini
 
 # ########################## 安装并配置 ##########################
 
@@ -21,8 +22,8 @@ fi
 
 # 配置supervisor
 if [ -d "$dir_supervisor_config" ]; then
-    if [ ! -d "$dir_supervisor_config" ]; then
-        cp $conf_supervisor $dir_supervisor_config
+    if [ ! -f "$target_conf" ]; then
+        cp $conf_supervisor $target_conf
         supervisorctl update
     else
         echo "请安装supervisor，以防止服务器重启后devpi服务挂掉：https://github.com/uncleguanghui/centos-supervisor"
