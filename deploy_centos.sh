@@ -40,8 +40,11 @@ if [ ! -f "$server" ]; then
 fi
 
 # 配置supervisor
+server=$(which devpi-server)
 if [ -d "$dir_supervisor_config" ]; then
     if [ ! -f "$target_conf" ]; then
+        # 替换字符串
+        sed -i -e 's#devpi-server#'${server}'#g' $conf_supervisor
         cp $conf_supervisor $target_conf
         supervisorctl update
     fi
