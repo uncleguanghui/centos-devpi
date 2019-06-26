@@ -57,7 +57,7 @@ supervisorctl start devpi
 # ########################## 初始化 ##########################
 
 IP=$(hostname -I | awk '{print $1}')
-URL=$IP:8013
+URL=http://$IP:8013
 
 # 连接并登陆
 devpi use $URL
