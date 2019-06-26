@@ -8,6 +8,8 @@ dir_devpi=/data/devpi
 dir_supervisor_config=/etc/supervisor/config.d
 target_conf=$dir_supervisor_config/devpi.ini
 
+PYTHON_VERSION=`python -V 2>&1|awk '{print $2}'|awk -F '.' '{print $1}'`
+
 # ########################## 关闭服务 ##########################
 
 # 若服务启动，则杀死
@@ -29,7 +31,10 @@ fi
 if [ ! -f "$server" ]; then
     pip install devpi -i https://pypi.tuna.tsinghua.edu.cn/simple
     # 当环境为python2时，直接运行是有问题的，需要更新requests和urllib3
-    pip install requests urllib3 --force --upgrade -i https://pypi.tuna.tsinghua.edu.cn/simple
+    if [ $PYTHON_VERSION == 2 ];then
+        pip install requests urllib3 --force --upgrade -i https://pypi.tuna.tsinghua.edu.cn/simple
+    fi
+
     # 初始化目录
     devpi-server --serverdir /data/devpi --init
 fi
